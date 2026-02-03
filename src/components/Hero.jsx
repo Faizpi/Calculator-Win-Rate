@@ -53,8 +53,8 @@ const Hero = () => {
                     className="mt-12 md:mt-16 max-w-xl"
                 >
                     <p className="text-lg md:text-xl lg:text-2xl text-white/50 font-light leading-relaxed">
-                        Precision tools for competitive dominance. Calculate your path to{' '}
-                        <span className="text-white font-medium">Mythic Glory</span> with absolute clarity.
+                        Advanced analytics for hero mastery and rank progression. Track your hero winrates and climb to{' '}
+                        <span className="text-white font-medium">Mythical Immortal</span>.
                     </p>
                 </motion.div>
 
