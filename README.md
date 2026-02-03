@@ -11,7 +11,19 @@
 
 *Track hero performance & plan your climb to Mythical Immortal*
 
-[Live Demo](#) · [Report Bug](https://github.com/Faizpi/Calculator-Win-Rate/issues) · [Request Feature](https://github.com/Faizpi/Calculator-Win-Rate/issues)
+</div>
+
+---
+
+## 📸 Preview
+
+<div align="center">
+
+![Preview 1](src/assets/1.png)
+
+![Preview 2](src/assets/2.png)
+
+![Preview 3](src/assets/3.png)
 
 </div>
 
@@ -28,7 +40,7 @@
 
 ---
 
-##  Quick Start
+## 🚀 Quick Start
 
 ```bash
 # Clone repository
@@ -41,8 +53,6 @@ npm install
 # Start development server
 npm run dev
 ```
-
-Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ---
 
@@ -57,38 +67,9 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ---
 
-## 📐 Project Structure
-
-```
-src/
-├── components/
-│   ├── Navbar.jsx           # Fullscreen navigation
-│   ├── Hero.jsx             # Landing section
-│   ├── InstructionModal.jsx # User guide modal
-│   └── calculators/
-│       ├── WinrateCalculator.jsx
-│       ├── WinLoseChecker.jsx
-│       └── MatchSimulator.jsx
-├── App.jsx
-├── main.jsx
-└── index.css
-```
-
----
-
-## � Usage
-
-**Target Calculator**: Enter total matches, current WR%, and goal WR% to see required wins.
-
-**Win/Lose Checker**: Enter total matches and WR% to see exact win/loss breakdown.
-
-**Match Simulator**: Add hypothetical wins/losses to predict future winrate.
-
----
-
 ## 📄 License
 
-MIT License - feel free to use for personal or commercial projects.
+MIT License
 
 ---
 
