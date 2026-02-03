@@ -13,70 +13,136 @@ const WinLoseChecker = () => {
         if (t && c && c <= 100 && c >= 0) {
             const wins = Math.round(t * (c / 100));
             const losses = t - wins;
-            setStats({ wins, losses });
+            setStats({ wins, losses, total: t });
         } else {
             setStats(null);
         }
     }, [totalMatches, currentWr]);
 
-    return (
-        <div className="w-full max-w-4xl mx-auto pt-20 border-t border-white/5">
-            <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-8">
-                <div>
-                    <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-4 text-white">Win/Lose <span className="text-zinc-600">Checker</span></h2>
-                    <p className="text-zinc-500 font-mono text-sm max-w-md">
-                        Check exactly how many wins and losses you have accumulated in your career.
-                    </p>
-                </div>
+    const winPercent = stats ? (stats.wins / stats.total) * 100 : 50;
 
-                <div className="flex gap-8 w-full md:w-auto">
-                    <InputSmall label="Matches" value={totalMatches} onChange={setTotalMatches} />
-                    <InputSmall label="Winrate %" value={currentWr} onChange={setCurrentWr} />
-                </div>
+    return (
+        <div className="w-full max-w-7xl mx-auto">
+            {/* Section Header */}
+            <div className="mb-16">
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8 }}
+                >
+                    <span className="text-xs font-mono uppercase tracking-[0.3em] text-purple-400 mb-4 block">02 / Checker</span>
+                    <h2 className="section-title">
+                        Win/Lose<br />
+                        <span className="text-white/30">Breakdown</span>
+                    </h2>
+                    <p className="mt-6 text-lg text-white/40 max-w-lg leading-relaxed">
+                        Reveal your exact win and loss count based on total matches and current winrate.
+                    </p>
+                </motion.div>
             </div>
 
-            <motion.div className="h-40 md:h-64 glass rounded-3xl flex overflow-hidden relative">
-                {stats ? (
-                    <>
-                        <motion.div
-                            initial={{ width: 0 }}
-                            animate={{ width: `${(stats.wins / totalMatches) * 100}%` }}
-                            target={{ width: `${(stats.wins / totalMatches) * 100}%` }}
-                            transition={{ duration: 1, ease: "easeOut" }}
-                            className="bg-white/10 h-full flex flex-col justify-center items-center relative group"
-                        >
-                            <div className="absolute inset-0 bg-[var(--accent-blue)] opacity-20 group-hover:opacity-30 transition-opacity" />
-                            <span className="text-4xl md:text-7xl font-black text-white z-10">{stats.wins}</span>
-                            <span className="text-xs font-bold tracking-widest uppercase text-[var(--accent-blue)] z-10">Wins</span>
-                        </motion.div>
+            {/* Checker Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                {/* Input Card */}
+                <motion.div
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                    className="glass p-8 space-y-8"
+                >
+                    <InputField
+                        label="Total Matches"
+                        value={totalMatches}
+                        onChange={setTotalMatches}
+                        placeholder="1000"
+                    />
+                    <InputField
+                        label="Current Winrate %"
+                        value={currentWr}
+                        onChange={setCurrentWr}
+                        placeholder="55.0"
+                    />
+                </motion.div>
 
-                        <motion.div
-                            initial={{ width: 0 }}
-                            animate={{ width: `${(stats.losses / totalMatches) * 100}%` }}
-                            className="bg-black/40 h-full flex flex-col justify-center items-center flex-1"
-                        >
-                            <span className="text-4xl md:text-7xl font-black text-zinc-600 z-10 group-hover:text-zinc-500 transition-colors">{stats.losses}</span>
-                            <span className="text-xs font-bold tracking-widest uppercase text-zinc-700 z-10">Losses</span>
-                        </motion.div>
-                    </>
-                ) : (
-                    <div className="w-full h-full flex items-center justify-center text-zinc-700 font-black text-4xl uppercase tracking-widest opacity-30">
-                        Input Data To Visualize
+                {/* Wins Card */}
+                <motion.div
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.3 }}
+                    className="glass p-8 flex flex-col justify-center items-center text-center relative overflow-hidden"
+                >
+                    <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-transparent" />
+                    <span className="text-xs font-mono uppercase tracking-[0.3em] text-cyan-400 block mb-4 relative z-10">
+                        Total Wins
+                    </span>
+                    <div className="text-7xl md:text-8xl font-black text-white relative z-10">
+                        {stats?.wins ?? '---'}
                     </div>
-                )}
+                </motion.div>
+
+                {/* Losses Card */}
+                <motion.div
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.4 }}
+                    className="glass p-8 flex flex-col justify-center items-center text-center relative overflow-hidden"
+                >
+                    <div className="absolute inset-0 bg-gradient-to-br from-rose-500/10 to-transparent" />
+                    <span className="text-xs font-mono uppercase tracking-[0.3em] text-rose-400 block mb-4 relative z-10">
+                        Total Losses
+                    </span>
+                    <div className="text-7xl md:text-8xl font-black text-white/60 relative z-10">
+                        {stats?.losses ?? '---'}
+                    </div>
+                </motion.div>
+            </div>
+
+            {/* Visual Bar */}
+            <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                className="mt-8 glass p-6 overflow-hidden"
+            >
+                <div className="h-4 bg-white/5 rounded-full overflow-hidden flex">
+                    <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: stats ? `${winPercent}%` : '50%' }}
+                        transition={{ duration: 1, ease: "easeOut" }}
+                        className="h-full bg-gradient-to-r from-cyan-500 to-cyan-400 rounded-l-full"
+                    />
+                    <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: stats ? `${100 - winPercent}%` : '50%' }}
+                        transition={{ duration: 1, ease: "easeOut" }}
+                        className="h-full bg-gradient-to-r from-rose-500/50 to-rose-600/30 rounded-r-full"
+                    />
+                </div>
+                <div className="flex justify-between mt-3 text-xs font-mono text-white/40">
+                    <span>Wins {stats ? `${winPercent.toFixed(1)}%` : '--'}</span>
+                    <span>Losses {stats ? `${(100 - winPercent).toFixed(1)}%` : '--'}</span>
+                </div>
             </motion.div>
         </div>
     );
 };
 
-const InputSmall = ({ label, value, onChange }) => (
-    <div className="flex-1">
-        <label className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold block mb-2">{label}</label>
+const InputField = ({ label, value, onChange, placeholder }) => (
+    <div className="space-y-3">
+        <label className="text-xs font-mono uppercase tracking-[0.2em] text-white/40 block">
+            {label}
+        </label>
         <input
             type="number"
             value={value}
             onChange={(e) => onChange(e.target.value)}
-            className="w-full bg-zinc-900/50 rounded-lg p-3 text-white font-mono font-bold border border-white/5 focus:border-[var(--accent-blue)] focus:outline-none transition-colors"
+            placeholder={placeholder}
+            className="input-premium"
         />
     </div>
 );

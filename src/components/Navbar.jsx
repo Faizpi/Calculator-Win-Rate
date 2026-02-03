@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ArrowUpRight, Github, Twitter } from 'lucide-react';
+import { Menu, X, ArrowUpRight, Github, Instagram, MessageCircle } from 'lucide-react';
 
 const Navbar = ({ onOpenInstruction }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,89 +13,141 @@ const Navbar = ({ onOpenInstruction }) => {
   ];
 
   const socialLinks = [
-    { icon: <Github size={20} />, href: "#" },
-    { icon: <Twitter size={20} />, href: "#" },
+    { icon: <Github size={18} />, label: "Github", href: "#" },
+    { icon: <Instagram size={18} />, label: "Instagram", href: "#" },
+    { icon: <MessageCircle size={18} />, label: "Discord", href: "#" },
   ];
 
   return (
     <>
-      <div className="fixed top-0 left-0 w-full px-6 md:px-12 py-8 flex justify-between items-center z-50 mix-blend-difference text-white pointer-events-none">
-        <div className="pointer-events-auto">
-          <div className="text-2xl font-black tracking-tighter font-main">WR<span className="text-[var(--accent-blue)]">.</span>GG</div>
-        </div>
-        <button
-          onClick={() => setIsOpen(true)}
-          className="pointer-events-auto flex items-center gap-3 uppercase text-xs font-bold tracking-[0.2em] group hover:text-[var(--accent-blue)] transition-colors"
-        >
-          <span className="hidden md:block">Menu</span>
-          <div className="bg-white group-hover:bg-[var(--accent-blue)] text-black p-2 rounded-full transition-colors">
-            <Menu size={20} className="text-black" />
-          </div>
-        </button>
-      </div>
+      {/* Fixed Navbar */}
+      <nav className="fixed top-0 left-0 w-full z-50 px-6 md:px-12 py-6">
+        <div className="flex justify-between items-center">
+          {/* Logo */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="flex items-center gap-2"
+          >
+            <span className="text-2xl md:text-3xl font-black tracking-tighter">
+              WR<span className="text-cyan-400">.</span>GG
+            </span>
+          </motion.div>
 
+          {/* Menu Button */}
+          <motion.button
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            onClick={() => setIsOpen(true)}
+            className="flex items-center gap-4 group"
+          >
+            <span className="hidden md:block text-xs font-bold tracking-[0.3em] uppercase text-white/60 group-hover:text-white transition-colors">
+              Menu
+            </span>
+            <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-cyan-400 group-hover:border-cyan-400 transition-all duration-300">
+              <Menu size={20} className="group-hover:text-black transition-colors" />
+            </div>
+          </motion.button>
+        </div>
+      </nav>
+
+      {/* Fullscreen Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ clipPath: "polygon(0 0, 100% 0, 100% 0, 0 0)" }}
-            animate={{ clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)" }}
-            exit={{ clipPath: "polygon(0 0, 100% 0, 100% 0, 0 0)" }}
-            transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1] }}
-            className="fixed inset-0 bg-[#050505] z-[60] flex flex-col justify-center items-center"
+            initial={{ clipPath: "circle(0% at calc(100% - 3rem) 3rem)" }}
+            animate={{ clipPath: "circle(150% at calc(100% - 3rem) 3rem)" }}
+            exit={{ clipPath: "circle(0% at calc(100% - 3rem) 3rem)" }}
+            transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
+            className="fixed inset-0 bg-[#030303] z-[60] flex flex-col"
           >
-            <button
-              onClick={() => setIsOpen(false)}
-              className="absolute top-8 right-6 md:right-12 text-white flex items-center gap-3 uppercase text-xs font-bold tracking-[0.2em] group hover:text-[var(--accent-blue)] transition-colors"
-            >
-              <span className="hidden md:block">Close</span>
-              <div className="bg-white/10 group-hover:bg-[var(--accent-blue)] text-white group-hover:text-black p-2 rounded-full transition-colors">
-                <X size={20} />
-              </div>
-            </button>
-
-            <nav className="flex flex-col gap-2 md:gap-4 items-start">
-              {menuItems.map((item, index) => (
-                <div key={index} className="overflow-hidden">
-                  <motion.div
-                    onClick={item.action ? item.action : () => setIsOpen(false)}
-                    initial={{ y: "100%" }}
-                    animate={{ y: 0 }}
-                    exit={{ y: "100%" }}
-                    transition={{ delay: 0.2 + index * 0.1, duration: 0.8, ease: [0.19, 1, 0.22, 1] }}
-                    className="cursor-pointer group flex items-center gap-4"
-                  >
-                    {item.href ? (
-                      <a href={item.href} className="flex items-center gap-4 text-5xl md:text-8xl font-black text-transparent hover:text-white transition-colors duration-300 font-main uppercase tracking-tighter" style={{ WebkitTextStroke: "1px rgba(255,255,255,0.4)" }}>
-                        <span className="group-hover:translate-x-4 transition-transform duration-500 ease-out">{item.title}</span>
-                        <ArrowUpRight size={32} className="opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all duration-500 text-[var(--accent-blue)]" />
-                      </a>
-                    ) : (
-                      <div className="flex items-center gap-4 text-5xl md:text-8xl font-black text-transparent hover:text-white transition-colors duration-300 font-main uppercase tracking-tighter" style={{ WebkitTextStroke: "1px rgba(255,255,255,0.4)" }}>
-                        <span className="group-hover:translate-x-4 transition-transform duration-500 ease-out">{item.title}</span>
-                        <ArrowUpRight size={32} className="opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all duration-500 text-[var(--accent-blue)]" />
-                      </div>
-                    )}
-                  </motion.div>
+            {/* Close Button */}
+            <div className="flex justify-between items-center px-6 md:px-12 py-6">
+              <span className="text-2xl md:text-3xl font-black tracking-tighter">
+                WR<span className="text-cyan-400">.</span>GG
+              </span>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="flex items-center gap-4 group"
+              >
+                <span className="hidden md:block text-xs font-bold tracking-[0.3em] uppercase text-white/60 group-hover:text-white transition-colors">
+                  Close
+                </span>
+                <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:border-white transition-all duration-300">
+                  <X size={20} className="group-hover:text-black transition-colors" />
                 </div>
-              ))}
-            </nav>
+              </button>
+            </div>
 
-            <div className="absolute bottom-12 w-full px-12 flex justify-between border-t border-white/10 pt-6">
-              <div className="text-xs text-zinc-500 font-mono">
-                DESIGNED FOR GAMERS
+            {/* Menu Content */}
+            <div className="flex-1 flex flex-col justify-center px-6 md:px-12 lg:px-24">
+              <nav className="space-y-2 md:space-y-4">
+                {menuItems.map((item, index) => (
+                  <div key={index} className="overflow-hidden">
+                    <motion.div
+                      initial={{ y: 100, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      exit={{ y: 100, opacity: 0 }}
+                      transition={{ delay: 0.1 + index * 0.08, duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
+                    >
+                      {item.href ? (
+                        <a
+                          href={item.href}
+                          onClick={() => setIsOpen(false)}
+                          className="group flex items-center gap-4 md:gap-8"
+                        >
+                          <span className="text-[10vw] md:text-[8vw] font-black tracking-[-0.04em] text-transparent transition-all duration-500 group-hover:text-white"
+                            style={{ WebkitTextStroke: '1.5px rgba(255,255,255,0.3)' }}>
+                            {item.title}
+                          </span>
+                          <ArrowUpRight className="w-8 h-8 md:w-12 md:h-12 text-cyan-400 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500" />
+                        </a>
+                      ) : (
+                        <button
+                          onClick={item.action}
+                          className="group flex items-center gap-4 md:gap-8 text-left"
+                        >
+                          <span className="text-[10vw] md:text-[8vw] font-black tracking-[-0.04em] text-transparent transition-all duration-500 group-hover:text-white"
+                            style={{ WebkitTextStroke: '1.5px rgba(255,255,255,0.3)' }}>
+                            {item.title}
+                          </span>
+                          <ArrowUpRight className="w-8 h-8 md:w-12 md:h-12 text-cyan-400 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500" />
+                        </button>
+                      )}
+                    </motion.div>
+                  </div>
+                ))}
+              </nav>
+            </div>
+
+            {/* Footer */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="px-6 md:px-12 py-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-start md:items-center gap-6"
+            >
+              <div className="text-xs font-mono text-white/30 tracking-widest uppercase">
+                Designed for Competitive Players
               </div>
               <div className="flex gap-6">
                 {socialLinks.map((link, i) => (
-                  <a key={i} href={link.href} className="text-zinc-500 hover:text-white transition-colors">
+                  <a
+                    key={i}
+                    href={link.href}
+                    className="flex items-center gap-2 text-white/40 hover:text-cyan-400 transition-colors text-sm"
+                  >
                     {link.icon}
+                    <span className="hidden md:inline">{link.label}</span>
                   </a>
                 ))}
               </div>
-            </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
     </>
   );
 };
+
 export default Navbar;
